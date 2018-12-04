@@ -11,7 +11,20 @@ class BookRepo extends DataSource {
   }
 
   async getBooks() {
-    return await this.store.BookModel.findAll();
+    return await this.store.BookModel.findAll({
+      include: [{ all: true }]
+    });
+  }
+
+  async findAuthor({ id }) {
+    return await this.store.AuthorModel.findByPk(id);
+  }
+
+  async createAuthor({ firstname, lastname }) {
+    return await this.store.AuthorModel.create({
+      firstname: firstname,
+      lastname: lastname
+    });
   }
 }
 

@@ -26,13 +26,35 @@ module.exports.createStore = () => {
     year: { type: SQL.INTEGER }
   });
 
+  const AuthorModel = db.define("author", {
+    id: {
+      type: SQL.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    createdAt: SQL.DATE,
+    updatedAt: SQL.DATE,
+    firstname: { type: SQL.STRING },
+    lastname: { type: SQL.STRING }
+  });
+
+  AuthorModel.hasMany(BookModel);
+  BookModel.belongsTo(AuthorModel, { foreignKey: "author_id" });
+
   casual.seed(123);
   db.sync({ force: true }).then(() => {
-    BookModel.create({
-      title: "Drive",
-      year: 2009
+    AuthorModel.create({
+      firstname: "Dan",
+      lastname: "Pink"
+    }).then(author => {
+      return BookModel.create({
+        title: "Drive",
+        year: 2009,
+        author_id: author.id
+      });
     });
+
     return true;
   });
-  return { BookModel };
+  return { AuthorModel, BookModel };
 };

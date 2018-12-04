@@ -9,10 +9,7 @@ const { createStore } = require("./connectors");
 const mocks = {
   Int: () => 1,
   Float: () => 22.5,
-  String: () => "this value is a mock",
-  Query: () => ({
-    books: () => new MockList([1, 10])
-  })
+  String: () => "this value is a mock"
 };
 
 const store = createStore();
@@ -31,9 +28,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources,
-  context,
-  mocks,
-  mockEntireSchema: false
+  context
 });
 
 server.listen().then(({ url }) => {
