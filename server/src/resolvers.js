@@ -1,7 +1,7 @@
 const resolvers = {
   Query: {
-    hello(_, args) {
-      return "Hello!"
+    books: async (_, args, { dataSources }) => {
+      return dataSources.bookRepo.getBooks();
     }
   }
 };
